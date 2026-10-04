@@ -1,0 +1,45 @@
+# Nightly snapshot of open data. The app reads sources live; this copy is what users see
+# (with its date) when a source is down. A failed source keeps the previous file.
+name: Refresh data snapshot
+
+on:
+  schedule:
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+    inputs:
+      city:
+        description: City id from app/src/cities
+        default: krakow
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - run: npm run data:fetch -- ${{ inputs.city || 'krakow' }}
+      - name: Commit the new snapshot
+        run: |
+          if [ -n "$(git status --porcelain public/data)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add public/data
+            git commit -m "Refresh open data snapshot"
+            git push
+          fi

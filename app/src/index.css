@@ -1,0 +1,147 @@
+:root {
+  --text: #1f2328;
+  --text-muted: #545b66;
+  --surface: #ffffff;
+  --surface-2: #f3f5f8;
+  --hover: rgba(60, 64, 67, 0.08);
+  --border: #c9cfd6;
+  --border-soft: rgba(60, 64, 67, 0.14);
+  --outline: rgba(60, 64, 67, 0.32);
+  --accent: #0b57d0;
+  --accent-soft: #e3ecfd;
+  --accent-text: #ffffff;
+  --focus: #0b57d0;
+  --ok: #1a7f37;
+  --warn: #8a5a00;
+  --bad: #b42318;
+  --unknown: #57606a;
+  --report: #6639ba;
+
+  /* Frosted glass over the map. Panels with text are more opaque, so text keeps AA contrast on any map. */
+  --glass: rgba(255, 255, 255, 0.78);
+  --glass-panel: rgba(255, 255, 255, 0.86);
+  --glass-solid: #f7f8fa;
+  --glass-edge: rgba(255, 255, 255, 0.65);
+  --glass-blur: saturate(170%) blur(18px);
+  --shadow: 0 8px 28px rgba(15, 23, 42, 0.16), 0 1px 3px rgba(15, 23, 42, 0.1);
+
+  color-scheme: light;
+  font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+  color: var(--text);
+  background: var(--surface);
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+/* maplibre-gl.css sets position: relative on the container, so size it explicitly */
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 8px;
+}
+
+a {
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ───────────── Vision settings (vision.ts) ───────────── */
+
+/* Low vision: text a quarter larger, solid panels instead of glass, black on white, heavier outlines */
+:root[data-low-vision] {
+  font-size: 20px;
+  --text: #000000;
+  --text-muted: #24292f;
+  --hover: rgba(0, 0, 0, 0.12);
+  --border: #1f2328;
+  --border-soft: #57606a;
+  --outline: #1f2328;
+  --accent: #0842a0;
+  --accent-soft: #dbe6fb;
+  --focus: #000000;
+  --glass: #ffffff;
+  --glass-panel: #ffffff;
+  --glass-solid: #ffffff;
+  --glass-edge: #1f2328;
+  --glass-blur: none;
+}
+
+:root[data-low-vision] :focus-visible {
+  outline-width: 4px;
+}
+
+/* Touch screens: taps act at once (no wait for a double tap), without the grey flash, and pulling
+   the page down does not reload it while the map or the panel is being dragged */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
+button,
+a,
+select,
+input,
+label {
+  touch-action: manipulation;
+}

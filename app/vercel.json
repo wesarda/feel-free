@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/comments.ts": { "maxDuration": 30 },
+    "api/photos.ts": { "maxDuration": 30 }
+  }
+}

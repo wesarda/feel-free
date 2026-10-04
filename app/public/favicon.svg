@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Feel Free: a place on the map that fits (pin with a tick), in the app's blue -->
+  <rect width="64" height="64" rx="14" fill="#0b57d0"/>
+  <path d="M32 10.5c-10.2 0-18.5 8.1-18.5 18.2 0 12.6 14.3 23.2 17.3 25.3a2 2 0 0 0 2.4 0c3-2.1 17.3-12.7 17.3-25.3 0-10.1-8.3-18.2-18.5-18.2z" fill="#fff"/>
+  <path d="M23.8 28.6l5.7 5.7 10.9-11.7" fill="none" stroke="#0b57d0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
