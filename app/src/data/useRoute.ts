@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { CityConfig } from '../cities/types'
 import { planRoute, type RoutePlan } from '../core/route/plan'
 import type { AlertReport, LngLat, Needs, Place } from '../core/types'
-import { loadNetwork, type NetworkLoad } from './network'
+import { loadNetwork, retryLiveNetwork, type NetworkLoad } from './network'
 
 export type Endpoint = { kind: 'place'; placeId: string } | { kind: 'point'; coords: LngLat }
 
@@ -81,7 +81,10 @@ export function useRoute(
       setFrom(null)
       setTo(null)
     },
-    retry: () => setAttempt((n) => n + 1),
+    retry: () => {
+      retryLiveNetwork()
+      setAttempt((n) => n + 1)
+    },
     status,
   }
 }

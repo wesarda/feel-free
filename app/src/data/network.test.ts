@@ -58,10 +58,10 @@ describe('loadNetwork', () => {
     expect(calls.copies()).toBe(0)
   })
 
-  it('waits at most 8 s for busy servers when the saved copy covers the route', async () => {
+  it('waits at most 2.5 s for busy servers when the saved copy covers the route', async () => {
     const calls = stubFetch(busy, () => snapshot([50, 19.9, 50.1, 20]))
     const pending = loadNetwork(city, FROM, TO)
-    await vi.advanceTimersByTimeAsync(7999)
+    await vi.advanceTimersByTimeAsync(2499)
     expect(calls.live()).toBe(1)
     await vi.advanceTimersByTimeAsync(1)
 
@@ -91,6 +91,31 @@ describe('loadNetwork', () => {
     expect((await loadNetwork(city, FROM, TO)).state).toBe('cached')
     expect((await loadNetwork(city, TO, [19.95, 50.065])).state).toBe('cached')
     expect(calls.copies()).toBe(1)
+  })
+
+  it('does not make the next routes wait again once the servers have not answered', async () => {
+    const calls = stubFetch(busy, () => snapshot([50, 19.9, 50.1, 20]))
+    const { loadNetwork, retryLiveNetwork } = await import('./network.ts')
+    const first = loadNetwork(city, FROM, TO)
+    await vi.advanceTimersByTimeAsync(2500)
+    expect((await first).state).toBe('cached')
+    expect(calls.live()).toBe(1)
+
+    // Another route in the saved area: the copy at once, the servers are not asked
+    expect(await loadNetwork(city, TO, [19.95, 50.065])).toMatchObject({ state: 'cached' })
+    expect(calls.live()).toBe(1)
+
+    // "Retry", or two minutes later: the servers are asked again
+    retryLiveNetwork()
+    const again = loadNetwork(city, FROM, TO)
+    await vi.advanceTimersByTimeAsync(2500)
+    expect((await again).state).toBe('cached')
+    expect(calls.live()).toBe(2)
+    await vi.advanceTimersByTimeAsync(120000)
+    const later = loadNetwork(city, FROM, TO)
+    await vi.advanceTimersByTimeAsync(2500)
+    await later
+    expect(calls.live()).toBe(3)
   })
 
   it('goes straight to the saved copy during a simulated outage', async () => {

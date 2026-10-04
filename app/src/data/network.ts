@@ -30,12 +30,20 @@ export type NetworkLoad =
   | { state: 'unavailable'; detail: string }
 
 /** How long a route waits for live data when the saved copy covers it; public Overpass servers are often busy. */
-const LIVE_LIMIT_WITH_COPY_MS = 8000
+const LIVE_LIMIT_WITH_COPY_MS = 2500
+/** After live data did not come, routes inside the saved area use the copy at once for this long instead of waiting again. */
+const RETRY_LIVE_AFTER_MS = 120000
+let liveFailed: { at: number; detail: string } | null = null
+
+/** The user asked to try again: the next route asks the live servers whatever happened before. */
+export function retryLiveNetwork(): void {
+  liveFailed = null
+}
 
 const memory: { bbox: BBox; graph: Graph; fetchedAt: string; state: 'live' | 'cached' }[] = []
 const snapshots = new Map<string, Promise<NetworkSnapshot | null>>()
 
-/** Read once per city, and only when live data did not come: the file is about 4 MB. */
+/** Read once per city, and only when live data did not come: the file is about 10 MB. */
 function readSnapshot(city: CityConfig): Promise<NetworkSnapshot | null> {
   let snapshot = snapshots.get(city.id)
   if (!snapshot) {
@@ -65,27 +73,34 @@ export async function loadNetwork(
   { signal, simulateOutage = false }: { signal?: AbortSignal; simulateOutage?: boolean } = {},
 ): Promise<NetworkLoad> {
   const bbox = bboxAround([from, to], 350)
-  const reuse = memory.find((m) => bboxContains(m.bbox, bbox) && (m.state === 'live' || simulateOutage))
-  if (reuse && !(simulateOutage && reuse.state === 'live')) return { state: reuse.state, graph: reuse.graph, fetchedAt: reuse.fetchedAt }
-
   // The data pipeline saves the network for this area, so the config tells whether the copy covers
   // the route without downloading it
   const savedArea = city.networkSnapshotUrl ? (city.networkBbox ?? city.bbox) : null
   const covered = savedArea !== null && bboxContains(savedArea, bbox)
+  // The servers did not answer a moment ago: no point making every next route wait for them again
+  const waited = covered && liveFailed !== null && Date.now() - liveFailed.at < RETRY_LIVE_AFTER_MS ? liveFailed : null
+  const offline = simulateOutage || waited !== null
+
+  const reuse = memory.find((m) => bboxContains(m.bbox, bbox) && (m.state === 'live' ? !simulateOutage : offline))
+  if (reuse) return { state: reuse.state, graph: reuse.graph, fetchedAt: reuse.fetchedAt, detail: reuse.state === 'cached' ? waited?.detail : undefined }
 
   let detail = ''
-  if (!simulateOutage) {
+  if (simulateOutage) {
+    detail = 'simulated outage (demo)'
+  } else if (waited) {
+    detail = waited.detail
+  } else {
     try {
       const { data } = await overpass(networkQuery(bbox), { signal, deadlineMs: covered ? LIVE_LIMIT_WITH_COPY_MS : undefined })
       const entry = { bbox, graph: buildGraph(data.elements), fetchedAt: new Date().toISOString(), state: 'live' as const }
       memory.push(entry)
+      liveFailed = null
       return { state: 'live', graph: entry.graph, fetchedAt: entry.fetchedAt }
     } catch (error) {
       if (signal?.aborted) throw error
       detail = error instanceof SourceUnavailableError ? error.attempts.join('; ') : String(error)
+      liveFailed = { at: Date.now(), detail }
     }
-  } else {
-    detail = 'simulated outage (demo)'
   }
 
   const snapshot = covered ? await readSnapshot(city) : null

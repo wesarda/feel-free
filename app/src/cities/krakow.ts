@@ -8,8 +8,8 @@ export const krakow: CityConfig = {
   bbox: [50.04, 19.915, 50.0705, 19.965],
   snapshotUrl: 'data/krakow/places.json',
   networkSnapshotUrl: 'data/krakow/network.json',
-  // Old Town, Wawel, Kazimierz and the main station
-  networkBbox: [50.0455, 19.925, 50.0735, 19.956],
+  // The whole area the places come from, and 350 m around it: a route between any two of them is covered
+  networkBbox: [50.0365, 19.9095, 50.0745, 19.9705],
   stops: {
     serviceUrl:
       'https://services-eu1.arcgis.com/svTzSt3AvH7sK6q9/arcgis/rest/services/Przystanki_Komunikacji_Miejskiej_w_Krakowie/FeatureServer/0',

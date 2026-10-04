@@ -1,6 +1,6 @@
 {
   "city": "krakow",
-  "generatedAt": "2026-10-04T02:39:33.038Z",
+  "generatedAt": "2026-10-04T07:03:06.963Z",
   "sources": [
     {
       "id": "osm-places",
@@ -22,10 +22,10 @@
     {
       "id": "osm-network",
       "status": "ok",
-      "fetchedAt": "2026-10-04T02:39:32.365Z",
-      "count": 15077,
-      "endpoint": "https://overpass-api.de/api/interpreter",
-      "lastSuccess": "2026-10-04T02:39:32.365Z"
+      "fetchedAt": "2026-10-04T07:03:06.963Z",
+      "count": 34797,
+      "endpoint": "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+      "lastSuccess": "2026-10-04T07:03:06.963Z"
     },
     {
       "id": "ztp-stops",
