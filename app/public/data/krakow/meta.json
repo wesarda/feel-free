@@ -1,6 +1,6 @@
 {
   "city": "krakow",
-  "generatedAt": "2026-10-10T08:30:55.016Z",
+  "generatedAt": "2026-10-11T08:49:46.878Z",
   "sources": [
     {
       "id": "osm-places",
@@ -10,17 +10,19 @@
     },
     {
       "id": "osm-network",
-      "status": "failed",
-      "error": "Overpass unavailable: overpass-api.de: HTTP 504; overpass.private.coffee: HTTP 500; maps.mail.ru: HTTP 504",
-      "lastSuccess": "2026-10-07T08:41:50.707Z"
+      "status": "ok",
+      "fetchedAt": "2026-10-11T08:49:46.305Z",
+      "count": 34947,
+      "endpoint": "https://overpass-api.de/api/interpreter",
+      "lastSuccess": "2026-10-11T08:49:46.305Z"
     },
     {
       "id": "ztp-stops",
       "status": "ok",
-      "fetchedAt": "2026-10-10T08:30:55.014Z",
+      "fetchedAt": "2026-10-11T08:49:46.877Z",
       "count": 148,
       "endpoint": "https://services-eu1.arcgis.com/svTzSt3AvH7sK6q9/arcgis/rest/services/Przystanki_Komunikacji_Miejskiej_w_Krakowie/FeatureServer/0",
-      "lastSuccess": "2026-10-10T08:30:55.014Z"
+      "lastSuccess": "2026-10-11T08:49:46.877Z"
     }
   ]
 }
