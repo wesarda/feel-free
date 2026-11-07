@@ -1,28 +1,39 @@
 {
   "city": "krakow",
-  "generatedAt": "2026-11-06T09:26:51.292Z",
+  "generatedAt": "2026-11-07T08:48:22.074Z",
   "sources": [
     {
       "id": "osm-places",
-      "status": "failed",
-      "error": "Overpass unavailable: overpass-api.de: HTTP 502; overpass.private.coffee: HTTP 502; maps.mail.ru: HTTP 504",
-      "lastSuccess": "2026-11-05T09:29:03.053Z"
+      "status": "ok",
+      "fetchedAt": "2026-11-07T08:47:45.339Z",
+      "count": 1549,
+      "endpoint": "https://overpass.private.coffee/api/interpreter",
+      "coverage": {
+        "places": 1549,
+        "anyAccessInfo": 740,
+        "steps": 0,
+        "doorWidth": 3,
+        "toilet": 60,
+        "babyChanging": 25,
+        "recent": 1070
+      },
+      "lastSuccess": "2026-11-07T08:47:45.339Z"
     },
     {
       "id": "osm-network",
       "status": "ok",
-      "fetchedAt": "2026-11-06T09:26:50.532Z",
-      "count": 35148,
-      "endpoint": "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
-      "lastSuccess": "2026-11-06T09:26:50.532Z"
+      "fetchedAt": "2026-11-07T08:48:21.189Z",
+      "count": 35149,
+      "endpoint": "https://overpass-api.de/api/interpreter",
+      "lastSuccess": "2026-11-07T08:48:21.189Z"
     },
     {
       "id": "ztp-stops",
       "status": "ok",
-      "fetchedAt": "2026-11-06T09:26:51.291Z",
+      "fetchedAt": "2026-11-07T08:48:22.073Z",
       "count": 149,
       "endpoint": "https://services-eu1.arcgis.com/svTzSt3AvH7sK6q9/arcgis/rest/services/Przystanki_Komunikacji_Miejskiej_w_Krakowie/FeatureServer/0",
-      "lastSuccess": "2026-11-06T09:26:51.291Z"
+      "lastSuccess": "2026-11-07T08:48:22.073Z"
     }
   ]
 }
