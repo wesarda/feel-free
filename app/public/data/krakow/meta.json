@@ -1,11 +1,11 @@
 {
   "city": "krakow",
-  "generatedAt": "2026-11-20T10:01:18.029Z",
+  "generatedAt": "2026-11-21T09:48:36.678Z",
   "sources": [
     {
       "id": "osm-places",
       "status": "ok",
-      "fetchedAt": "2026-11-20T10:00:38.788Z",
+      "fetchedAt": "2026-11-21T09:48:10.909Z",
       "count": 1591,
       "endpoint": "https://overpass-api.de/api/interpreter",
       "coverage": {
@@ -17,23 +17,23 @@
         "babyChanging": 26,
         "recent": 1204
       },
-      "lastSuccess": "2026-11-20T10:00:38.788Z"
+      "lastSuccess": "2026-11-21T09:48:10.909Z"
     },
     {
       "id": "osm-network",
       "status": "ok",
-      "fetchedAt": "2026-11-20T10:01:17.425Z",
-      "count": 35498,
+      "fetchedAt": "2026-11-21T09:48:35.868Z",
+      "count": 35500,
       "endpoint": "https://overpass-api.de/api/interpreter",
-      "lastSuccess": "2026-11-20T10:01:17.425Z"
+      "lastSuccess": "2026-11-21T09:48:35.868Z"
     },
     {
       "id": "ztp-stops",
       "status": "ok",
-      "fetchedAt": "2026-11-20T10:01:18.028Z",
+      "fetchedAt": "2026-11-21T09:48:36.676Z",
       "count": 149,
       "endpoint": "https://services-eu1.arcgis.com/svTzSt3AvH7sK6q9/arcgis/rest/services/Przystanki_Komunikacji_Miejskiej_w_Krakowie/FeatureServer/0",
-      "lastSuccess": "2026-11-20T10:01:18.028Z"
+      "lastSuccess": "2026-11-21T09:48:36.676Z"
     }
   ]
 }
